@@ -318,7 +318,7 @@ export default function SignUp() {
                                                 <span className="text-foreground-light">
                                                     I have an account!
                                                 </span>{" "}
-                                                <Link to={'/ecommerceStore'}>
+                                                <Link to={'/ecommerceStore/'}>
                                                 sign in
                                                 </Link>
                                             </div>
