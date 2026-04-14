@@ -10,8 +10,8 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
     <Routes>
-      <Route path="/ecommerce-store" element={<App />} />
-      <Route path="/ecommerce-store/signUp" element={<SignUp />} />
+      <Route path="/ecommerceStore" element={<App />} />
+      <Route path="/ecommerceStore/signUp" element={<SignUp />} />
     </Routes>
   </BrowserRouter>
   <ToastContainer />

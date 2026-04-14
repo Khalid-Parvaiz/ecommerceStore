@@ -180,31 +180,13 @@ export default function Login() {
                                                 <span className="text-foreground-light">
                                                     Don’t have an account?
                                                 </span>{" "}
-                                                <Link to={'/ecommerce-store/signUp'}>
+                                                <Link to={'/ecommerceStore/signUp'}>
                                                 sign up
                                                 </Link>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="text-center text-balance">
-                                        <p className="text-xs text-foreground-lighter sm:mx-auto sm:max-w-sm">
-                                            By continuing, you agree to Supabase’s{" "}
-                                            <a
-                                                className="underline hover:text-foreground-light"
-                                                href="https://supabase.com/terms"
-                                            >
-                                                Terms of Service
-                                            </a>{" "}
-                                            and{" "}
-                                            <a
-                                                className="underline hover:text-foreground-light"
-                                                href="https://supabase.com/privacy"
-                                            >
-                                                Privacy Policy
-                                            </a>
-                                            , and to receive periodic emails with updates.
-                                        </p>
-                                    </div>
+                                    
                                 </main>
                                 <aside className="flex-col items-center justify-center flex-1 flex-shrink hidden basis-1/4 xl:flex">
                                     <div className="relative flex flex-col gap-6">
