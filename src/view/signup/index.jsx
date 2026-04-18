@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 export default function SignUp() {
     return (
         <Formik
-            initialValues={{ email: '', password: '' }}
+            initialValues={{ email: '', password: '',firstName: '', lastName: '' }}
             validate={values => {
                 const errors = {};
                 if (!values.firstName) {

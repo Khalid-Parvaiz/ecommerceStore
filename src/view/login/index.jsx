@@ -1,21 +1,35 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../../context';
+import signIn from '../../services/auth';
 import { toast } from 'react-toastify';
 
 
 export default function Login() {
+    const { user, setUser } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(user?.accessToken) {
+            navigate("/ecommerceStore/dashboard")
+        } else {
+            console.error('invaild crediantial')
+        }
+    },[user,navigate])
+
     return (
         <Formik
-            initialValues={{ email: '', password: '' }}
+            initialValues={{ email: '', password: '', username: '' }}
             validate={values => {
                 const errors = {};
-                if (!values.email) {
-                    errors.email = 'Required';
-                } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                ) {
-                    errors.email = 'Invalid email address';
-                }
+                // if (!values.email) {
+                //     errors.email = 'Required';
+                // } else if (
+                //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                // ) {
+                //     errors.email = 'Invalid email address';
+                // }
                 if (!values.password) {
                     errors.password = 'Required';
                 } else if (values.password.length < 8) {
@@ -23,12 +37,13 @@ export default function Login() {
                 }
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    // alert(JSON.stringify(values, null, 2));
-                    toast.success("welcome back!")
-                    setSubmitting(false);
-                }, 400);
+            onSubmit={async (values, { setSubmitting }) => {
+                try {
+                    const response = await signIn(values.username, values.password)
+                    setUser(response.data)
+                } catch (error) {
+                    console.error(error)
+                }
             }}
         >
             {({ isSubmitting }) => (
@@ -56,21 +71,21 @@ export default function Login() {
                                                     >
                                                         <div
                                                             className="transition-all duration-500 ease-in-out flex flex-row gap-2 justify-between"
-                                                            data-Formlayout-id="labelContainer"
+
                                                         >
                                                             <label
                                                                 className="text peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm transition-colors text-foreground flex gap-2 items-center break-words leading-normal"
                                                                 htmlFor="email"
-                                                                data-Formlayout-id="FormLabel"
+
                                                             >
                                                                 <span>Email</span>
                                                             </label>
                                                         </div>
                                                         <div
                                                             className="transition-all duration-500 ease-in-out order-1 col-span-12"
-                                                            data-Formlayout-id="dataContainer"
+
                                                         >
-                                                            <div className="" data-Formlayout-id="nonBoxInputContainer">
+                                                            <div className="" >
                                                                 <Field
                                                                     type="email"
                                                                     name="email"
@@ -82,6 +97,39 @@ export default function Login() {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div>
+                                                    <div
+                                                        name="username"
+                                                        className="relative text-base md:text-sm flex flex-col gap-2"
+                                                    >
+                                                        <div
+                                                            className="transition-all duration-500 ease-in-out flex flex-row gap-2 justify-between"
+
+                                                        >
+                                                            <label
+                                                                className="text peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm transition-colors text-foreground flex gap-2 items-center break-words leading-normal"
+                                                                htmlFor="username"
+
+                                                            >
+                                                                <span>Username</span>
+                                                            </label>
+                                                        </div>
+                                                        <div
+                                                            className="transition-all duration-500 ease-in-out order-1 col-span-12"
+
+                                                        >
+                                                            <div>
+                                                                <Field
+                                                                    type="text"
+                                                                    name="username"
+                                                                    placeholder="you@example.com"
+                                                                    className="flex w-full rounded-md border border-control read-only:border-button bg-foreground/[.026] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-muted read-only:text-foreground-light focus:ring-background-control focus:border-control focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background-control focus-visible:ring-offset-2 focus-visible:ring-offset-foreground-muted disabled:cursor-not-allowed disabled:text-foreground-muted aria-[] aria-[invalid=true]:bg-destructive-200 aria-[invalid=true]:border-destructive-400 aria-[invalid=true]:focus:border-destructive aria-[invalid=true]:focus-visible:border-destructive text-base md:text-sm leading-4 px-3 py-2 h-[34px]"
+                                                                />
+                                                            </div>
+                                                            <ErrorMessage name="username" component="div" className='text-red-500 mt-1' />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div className="relative">
                                                     <div>
                                                         <div
@@ -90,24 +138,21 @@ export default function Login() {
                                                         >
                                                             <div
                                                                 className="transition-all duration-500 ease-in-out flex flex-row gap-2 justify-between"
-                                                                data-Formlayout-id="labelContainer"
+
                                                             >
                                                                 <label
                                                                     className="text peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm transition-colors text-foreground flex gap-2 items-center break-words leading-normal"
                                                                     htmlFor="password"
-                                                                    data-Formlayout-id="FormLabel"
+
                                                                 >
                                                                     <span>Password</span>
                                                                 </label>
                                                             </div>
                                                             <div
                                                                 className="transition-all duration-500 ease-in-out order-1 col-span-12"
-                                                                data-Formlayout-id="dataContainer"
+
                                                             >
-                                                                <div
-                                                                    className=""
-                                                                    data-Formlayout-id="nonBoxInputContainer"
-                                                                >
+                                                                <div>
                                                                     <div
                                                                         className="relative"
                                                                         id=":r1o:-Form-item"
@@ -181,12 +226,12 @@ export default function Login() {
                                                     Don’t have an account?
                                                 </span>{" "}
                                                 <Link to={'/ecommerceStore/signUp'}>
-                                                sign up
+                                                    sign up
                                                 </Link>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </main>
                                 <aside className="flex-col items-center justify-center flex-1 flex-shrink hidden basis-1/4 xl:flex">
                                     <div className="relative flex flex-col gap-6">
