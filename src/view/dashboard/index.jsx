@@ -1,21 +1,30 @@
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../../context";
 import { useNavigate } from "react-router";
 import Header from "../../components/Header";
+import { getAuth, onAuthStateChanged } from "../../config";
+import { DataContext } from "../../context";
 
 export default function Dashboard() {
-    const {user} = useContext(AuthContext)
+    const { loginUser , setLoginUser } = useContext(DataContext)
     const navigate = useNavigate()
 
-    useEffect(()=> {
-        if(!user?.accessToken) {
-            navigate("/ecommerceStore/")
-        }
-    },[user,navigate])
+    useEffect(() => {
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate("/ecommerceStore/")
+                const uid = user.uid;
+                // ...
+            } else {
+                console.log(user)
+               setLoginUser(user)  
+            }
+        });
+    }, [navigate])
 
-    return(
+    return (
         <>
-        <Header user={user}/>
+            <Header user={loginUser} />
         </>
     )
 }
